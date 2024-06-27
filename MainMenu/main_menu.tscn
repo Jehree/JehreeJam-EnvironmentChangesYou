@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=3 uid="uid://cvpgiap8o2thp"]
+
+[ext_resource type="Texture2D" uid="uid://bs5rcfaeb0e1d" path="res://MainMenu/bg.png" id="1_bm0r0"]
+[ext_resource type="Script" path="res://MainMenu/main_menu.gd" id="1_i3fo2"]
+[ext_resource type="PackedScene" uid="uid://bprhboufespig" path="res://OptionsMenu/options_menu.tscn" id="3_sv0cs"]
+[ext_resource type="AudioStream" uid="uid://dxxs58il7ghjo" path="res://Assets/Sound/2019-12-11_-_Retro_Platforming_-_David_Fesliyan.mp3" id="4_phmis"]
+
+[sub_resource type="SystemFont" id="SystemFont_oeqde"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="SystemFont" id="SystemFont_bq4yr"]
+font_names = PackedStringArray("Impact")
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("main", "start_button", "exit_button", "options_button", "options_menu")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i3fo2")
+main = NodePath("Main")
+start_button = NodePath("Main/HBoxContainer/VBoxContainer/StartGame")
+exit_button = NodePath("Main/HBoxContainer/VBoxContainer/ExitGame")
+options_button = NodePath("Main/HBoxContainer/VBoxContainer/OptionsButton")
+options_menu = NodePath("OptionsMenu")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_bm0r0")
+
+[node name="Main" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Separator" type="Control" parent="Main/VBoxContainer"]
+layout_mode = 2
+
+[node name="MainMenuLabel" type="Label" parent="Main/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 8
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 24
+theme_override_fonts/font = SubResource("SystemFont_oeqde")
+theme_override_font_sizes/font_size = 64
+text = "Z O N E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Separator" type="Control" parent="Main/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="StartGame" type="Button" parent="Main/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_bq4yr")
+theme_override_font_sizes/font_size = 24
+text = "Start Game"
+
+[node name="OptionsButton" type="Button" parent="Main/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_bq4yr")
+theme_override_font_sizes/font_size = 24
+text = "Options"
+
+[node name="ExitGame" type="Button" parent="Main/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_bq4yr")
+theme_override_font_sizes/font_size = 24
+text = "Exit Game"
+
+[node name="OptionsMenu" parent="." instance=ExtResource("3_sv0cs")]
+visible = false
+layout_mode = 1
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_phmis")
+volume_db = -10.0
+bus = &"Music"

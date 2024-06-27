@@ -1,0 +1,51 @@
+using Godot;
+using System;
+
+public partial class CharacterSwapController : Node
+{
+	[Export]
+	private CharacterBody2D[] playableCharacters;
+	public PlayableCharacter activeCharacter {get; private set;}
+	
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		activeCharacter = playableCharacters[0] as PlayableCharacter;
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		if (!Input.IsActionJustPressed("ui_accept")) return;
+		if (playableCharacters.Length <= 1) return;
+		
+		RequestCharacterSwap(PlayableCharacter.ECharacterType.TEST1);
+	}
+	
+	private void SwapCharacter(PlayableCharacter newCharacter) 
+	{
+		PlayableCharacter oldCharacter = activeCharacter;
+
+		newCharacter.GlobalPosition = oldCharacter.GlobalPosition;
+		newCharacter.Velocity = oldCharacter.Velocity;
+		newCharacter.ProcessMode = ProcessModeEnum.Inherit;
+		newCharacter.Visible = true;
+		
+		activeCharacter = newCharacter;
+		
+		oldCharacter.ProcessMode = ProcessModeEnum.Disabled;
+		oldCharacter.Visible = false;
+	}
+	
+	public void RequestCharacterSwap(PlayableCharacter.ECharacterType newCharacterType) 
+	{
+		if (activeCharacter.characterType == newCharacterType) return;
+
+		foreach (PlayableCharacter character in playableCharacters) 
+		{
+			if (character.characterType != newCharacterType) continue;
+			
+			SwapCharacter(character);
+		}
+	}
+}

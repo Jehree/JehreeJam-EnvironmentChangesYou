@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://e6u3hx42q4hb"]
+
+[ext_resource type="TileSet" uid="uid://c5rmvpv8j05xy" path="res://Tilemaps/basic_tilemap.tres" id="1_46mmm"]
+[ext_resource type="Script" path="res://Tilemaps/ZoneTileMap.cs" id="2_85sxs"]
+
+[node name="GroundTileMap" type="TileMap"]
+texture_filter = 1
+tile_set = ExtResource("1_46mmm")
+format = 2
+layer_0/name = "Background"
+layer_0/z_index = -5
+layer_0/tile_data = PackedInt32Array(2293777, 1, 0, 2359313, 1, 0, 2424849, 262145, 1, 2424850, 196609, 0, 2424851, 327681, 1, 2359315, 65537, 0, 2293779, 65537, 0, 2228243, 65537, 0, 2162707, 327681, 0, 2228242, 458753, 0, 2293778, 458753, 0, 2359314, 458753, 0, 2228241, 1, 0, 2162705, 262145, 0, 2162706, 131073, 0)
+script = ExtResource("2_85sxs")

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://kqatgcodtn07"]
+
+[ext_resource type="Script" path="res://OptionsMenu/Controls/rebind_key_list_updater.gd" id="1_85xb8"]
+
+[node name="RebindKeyListUpdater" type="Node" node_paths=PackedStringArray("control_tab")]
+script = ExtResource("1_85xb8")
+control_tab = NodePath("")

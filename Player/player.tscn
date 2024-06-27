@@ -1,0 +1,123 @@
+[gd_scene load_steps=19 format=3 uid="uid://iqs8d30f3wi8"]
+
+[ext_resource type="Script" path="res://Player/PlayableCharacter.cs" id="1_eq4iy"]
+[ext_resource type="Script" path="res://Player/CharacterTemplate.cs" id="2_678iv"]
+[ext_resource type="Script" path="res://CommandPattern/Commands/JumpCommand.cs" id="3_edi62"]
+[ext_resource type="Script" path="res://CommandPattern/Commands/DashCommand.cs" id="3_p6sn3"]
+[ext_resource type="Script" path="res://CommandPattern/Commands/MoveCommand.cs" id="4_mt6rv"]
+[ext_resource type="Script" path="res://CommandPattern/Commands/ZeroGravityMoveCommand.cs" id="6_ar6jx"]
+[ext_resource type="AudioStream" uid="uid://hd1gvsnu1uko" path="res://Assets/Sound/jump.wav" id="6_txvhb"]
+[ext_resource type="Texture2D" uid="uid://dn7bljmce2e7r" path="res://Assets/char1.png" id="7_rbkk2"]
+[ext_resource type="Script" path="res://CommandPattern/Commands/GroundSlamCommand.cs" id="7_xwblu"]
+[ext_resource type="Texture2D" uid="uid://ccs2ti0u46dmr" path="res://Assets/char2.png" id="8_xql8r"]
+[ext_resource type="AudioStream" uid="uid://chhkd71eajjlg" path="res://Assets/Sound/dash.wav" id="9_ajd6x"]
+[ext_resource type="Texture2D" uid="uid://c7t14qs10lgya" path="res://Assets/char3.png" id="11_f40uc"]
+[ext_resource type="AudioStream" uid="uid://ctitx8bsehe3y" path="res://Assets/Sound/explosion.wav" id="13_kqvp2"]
+
+[sub_resource type="Resource" id="Resource_7jc5r"]
+script = ExtResource("2_678iv")
+SpritePath = NodePath("CharacterTemplateData/Square/2")
+ColliderPath = NodePath("BlueCollisionShape2D")
+JumpCommandPath = NodePath("CharacterTemplateData/Square/JumpCommand")
+MoveCommandPath = NodePath("CharacterTemplateData/Square/MoveCommand")
+
+[sub_resource type="Resource" id="Resource_i1txo"]
+script = ExtResource("2_678iv")
+SpritePath = NodePath("CharacterTemplateData/Triangle/1")
+ColliderPath = NodePath("BlueCollisionShape2D")
+JumpCommandPath = NodePath("CharacterTemplateData/Triangle/DashCommand")
+MoveCommandPath = NodePath("CharacterTemplateData/Triangle/MoveCommand")
+
+[sub_resource type="Resource" id="Resource_fgoj5"]
+script = ExtResource("2_678iv")
+SpritePath = NodePath("CharacterTemplateData/Hexagon/3")
+ColliderPath = NodePath("BlueCollisionShape2D")
+JumpCommandPath = NodePath("CharacterTemplateData/Hexagon/GroundSlamCommand")
+MoveCommandPath = NodePath("CharacterTemplateData/Hexagon/ZeroGMovementCommand")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3or3a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4hu65"]
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("zoneDetectionArea", "youWonUI")]
+position = Vector2(544, 431)
+script = ExtResource("1_eq4iy")
+zoneDetectionArea = NodePath("Area2D")
+characterTemplates = Array[Object]([SubResource("Resource_7jc5r"), SubResource("Resource_i1txo"), SubResource("Resource_fgoj5")])
+youWonUI = []
+
+[node name="BlueCollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2(5.32, 5.32)
+shape = SubResource("RectangleShape2D_3or3a")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1.3242, 1.32)
+shape = SubResource("RectangleShape2D_4hu65")
+
+[node name="CharacterTemplateData" type="Node2D" parent="."]
+
+[node name="Square" type="Node2D" parent="CharacterTemplateData"]
+
+[node name="2" type="Sprite2D" parent="CharacterTemplateData/Square"]
+texture_filter = 1
+texture = ExtResource("8_xql8r")
+
+[node name="JumpCommand" type="Node" parent="CharacterTemplateData/Square" node_paths=PackedStringArray("jumpSoundPlayer")]
+script = ExtResource("3_edi62")
+jumpSoundPlayer = NodePath("../JumpSound")
+jumpVelocity = 600.0
+maxJumps = 2
+
+[node name="MoveCommand" type="Node" parent="CharacterTemplateData/Square"]
+script = ExtResource("4_mt6rv")
+moveSpeed = 500.0
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="CharacterTemplateData/Square"]
+stream = ExtResource("6_txvhb")
+bus = &"SFX"
+
+[node name="Triangle" type="Node2D" parent="CharacterTemplateData"]
+
+[node name="DashCommand" type="Node" parent="CharacterTemplateData/Triangle" node_paths=PackedStringArray("dashSoundPlayer")]
+script = ExtResource("3_p6sn3")
+dashSoundPlayer = NodePath("../DashSound")
+
+[node name="MoveCommand" type="Node" parent="CharacterTemplateData/Triangle"]
+script = ExtResource("4_mt6rv")
+moveSpeed = 500.0
+gravity = 500.0
+
+[node name="1" type="Sprite2D" parent="CharacterTemplateData/Triangle"]
+visible = false
+texture_filter = 1
+texture = ExtResource("7_rbkk2")
+
+[node name="DashSound" type="AudioStreamPlayer2D" parent="CharacterTemplateData/Triangle"]
+stream = ExtResource("9_ajd6x")
+bus = &"SFX"
+
+[node name="Hexagon" type="Node2D" parent="CharacterTemplateData"]
+
+[node name="3" type="Sprite2D" parent="CharacterTemplateData/Hexagon"]
+visible = false
+texture_filter = 1
+texture = ExtResource("11_f40uc")
+
+[node name="ZeroGMovementCommand" type="Node" parent="CharacterTemplateData/Hexagon"]
+script = ExtResource("6_ar6jx")
+lockedDownwardMovement = true
+
+[node name="GroundSlamCommand" type="Node" parent="CharacterTemplateData/Hexagon" node_paths=PackedStringArray("slamSoundPlayer")]
+script = ExtResource("7_xwblu")
+slamSoundPlayer = NodePath("../SlamSound")
+maxSlamSpeed = 2000.0
+acceleration = 100.0
+
+[node name="SlamSound" type="AudioStreamPlayer2D" parent="CharacterTemplateData/Hexagon"]
+stream = ExtResource("13_kqvp2")
+bus = &"SFX"
